@@ -1,4 +1,5 @@
 import re
+import sys
 
 from . import types
 
@@ -30,9 +31,14 @@ def parse_short_option(
     values[option_name] = option_value
 
 
-def parser(args_raw: list[str]) -> dict[str, str | int | bool | None | list[str]]:
+def parser(
+    args_raw: list[str] | None = None,
+) -> dict[str, str | int | bool | None | list[str]]:
     values: dict[str, str | int | bool | None | list[str]] = {}
-    args = args_raw[:]
+    if args_raw is None:
+        args = sys.argv[1:]
+    else:
+        args = args_raw[:]
     while args:
         arg = args.pop(0)
         if arg == "--":

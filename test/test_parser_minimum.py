@@ -1,7 +1,7 @@
 import typing
 import unittest
 
-from fruits_skewers import parser_minimum
+from fruits_skewers_minimum import parser_minimum
 
 
 class TestParserMinimum(unittest.TestCase):
@@ -91,33 +91,33 @@ class TestParserMinimum(unittest.TestCase):
         self.assertEqual(result["ARGV"], ["jkl", "mno"])
 
     def test_double_hyphen(self):
-        args = ["--abc", "--def=123", "--", "-ghi=boo", "jkl", "mno"]
+        args: list[str] = ["--abc", "--def=123", "--", "-ghi=boo", "jkl", "mno"]
         result = parser_minimum.parser(args)
         self.assertIsNone(result["abc"])
         self.assertEqual(result["def"], "123")
         self.assertEqual(result["ARGV"], ["-ghi=boo", "jkl", "mno"])
 
     def test_short_invalid_name(self):
-        args = ["-#"]
+        args: list[str] = ["-#"]
         with self.assertRaises(ValueError):
             parser_minimum.parser(args)
 
     def test_long_invalid_name(self):
-        args = ["--###-###"]
+        args: list[str] = ["--###-###"]
         with self.assertRaises(ValueError):
             parser_minimum.parser(args)
 
     def test_short_showhelp_exception(self):
-        args = ["-h"]
+        args: list[str] = ["-h"]
         with self.assertRaises(parser_minimum.types.ShowHelpException):
             parser_minimum.parser(args)
 
     def test_long_showhelp_exception(self):
-        args = ["--help"]
+        args: list[str] = ["--help"]
         with self.assertRaises(parser_minimum.types.ShowHelpException):
             parser_minimum.parser(args)
 
     def test_long_showversion_exception(self):
-        args = ["--version"]
+        args: list[str] = ["--version"]
         with self.assertRaises(parser_minimum.types.ShowVersionException):
             parser_minimum.parser(args)
